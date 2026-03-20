@@ -8,9 +8,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from database.db import get_connection
+from database.db import get_connection, create_tables
 from auth import create_user, login_user
 from history import save_history
+
+# 🔥 IMPORTANT
+create_tables()
 
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="Trend Engine", layout="wide")
