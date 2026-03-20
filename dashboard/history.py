@@ -1,11 +1,12 @@
-from database.db import get_connection
-from datetime import datetime
 import sys
 import os
 
 # 🔥 Force add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+
+from database.db import get_connection
+from datetime import datetime
 
 # 💾 Save search history
 def save_history(user_id, query):

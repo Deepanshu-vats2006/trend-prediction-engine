@@ -1,14 +1,16 @@
+import sys
+import os
+
+# 🔥 Force add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 from database.db import get_connection
 from auth import create_user, login_user
 from history import save_history
-import sys
-import os
-
-# 🔥 Force add project root to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="Trend Engine", layout="wide")

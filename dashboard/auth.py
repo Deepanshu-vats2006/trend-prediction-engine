@@ -1,11 +1,11 @@
-import hashlib
-from database.db import get_connection
 import sys
 import os
 
 # 🔥 Force add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+import hashlib
+from database.db import get_connection
 
 # 🔐 Hash password (IMPORTANT)
 def hash_password(password):
