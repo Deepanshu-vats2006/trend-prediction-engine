@@ -60,12 +60,22 @@ if search and st.session_state.user:
 
     topics = [t.strip().lower() for t in search.split(",")]
 
+    # 🔥 AUTO FETCH DATA (ADD HERE)
+    from scrapers.google_trends import run_google_trends
+    from scrapers.youtube_trends import run_youtube_trends
+
+    with st.spinner("Fetching latest data..."):
+        run_google_trends(topics)
+        run_youtube_trends(topics)
+
+    # 💾 Save history
     save_history(st.session_state.user, search)
 
+    # 📊 Load data from DB
     conn = get_connection()
     df = pd.read_sql_query("SELECT * FROM trends", conn)
     conn.close()
-
+   
     df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
 
     df_filtered = df[df["title"].str.contains("|".join(topics), case=False)]
