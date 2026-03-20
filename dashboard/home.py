@@ -7,7 +7,11 @@ from history import save_history
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Get absolute path of project root (trend_engine)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
 
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="Trend Engine", layout="wide")
