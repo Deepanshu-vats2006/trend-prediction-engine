@@ -1,5 +1,10 @@
 import streamlit as st
 from history import get_history, clear_history
+import sys
+import os
+
+# 🔥 Force add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 st.title("🕘 Search History")
 
