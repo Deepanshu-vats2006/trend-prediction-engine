@@ -1,51 +1,58 @@
 import sqlite3
 
+DB_PATH = "database/trends.db"
+
+def get_connection():
+    return sqlite3.connect(DB_PATH)
+
+
 def create_tables():
-    conn = sqlite3.connect("database/trends.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
-    # your CREATE TABLE code...
-
-    conn.commit()
-    conn.close()
-
+    # 🔥 Unified trends table (VERY IMPORTANT)
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS youtube_trends (
+    CREATE TABLE IF NOT EXISTS trends (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        keyword TEXT,
-        video_id TEXT,
         title TEXT,
-        channel TEXT,
-        published_at TEXT,
-        UNIQUE(video_id)
+        platform TEXT,
+        trend_score REAL,
+        timestamp TEXT
+    )
+    """)
+
+    # Users
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+    """)
+
+    # History
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        query TEXT,
+        timestamp TEXT
     )
     """)
 
     conn.commit()
-
-
-def insert_google(keyword, date, interest):
-    conn = sqlite3.connect("database/trends.db")
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        INSERT OR IGNORE INTO google_trends (keyword, date, interest)
-        VALUES (?, ?, ?)
-    """, (keyword, date, interest))
-
-    conn.commit()
     conn.close()
 
 
-def insert_youtube(keyword, video_id, title, channel, published_at):
-    conn = sqlite3.connect("database/trends.db")
+# 🔥 INSERT TREND (COMMON FUNCTION)
+def insert_trend(title, platform, score, timestamp):
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT OR IGNORE INTO youtube_trends
-        (keyword, video_id, title, channel, published_at)
-        VALUES (?, ?, ?, ?, ?)
-    """, (keyword, video_id, title, channel, published_at))
+    INSERT INTO trends (title, platform, trend_score, timestamp)
+    VALUES (?, ?, ?, ?)
+    """, (title, platform, score, timestamp))
 
     conn.commit()
     conn.close()

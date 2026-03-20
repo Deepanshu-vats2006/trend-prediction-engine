@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 import os
 from googleapiclient.discovery import build
 import os
-from database.db import insert_youtube
+from database.db import insert_trend
+from datetime import datetime
 
 load_dotenv()  
 
@@ -34,4 +35,9 @@ def run_youtube_trends(keywords):
 
     print("-", title)
 
-    insert_youtube(keyword, video_id, title, channel, published)
+    insert_trend(
+    title=keyword,
+    platform="youtube",
+    score=1,  # each video = 1 weight
+    timestamp=published
+)

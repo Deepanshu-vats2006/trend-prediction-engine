@@ -1,6 +1,7 @@
 import time
 from pytrends.request import TrendReq
-from database.db import insert_google
+from database.db import insert_trend
+from datetime import datetime
 
 def run_google_trends(keywords):
     print("🔥 Running Google Trends...")
@@ -44,6 +45,10 @@ def run_google_trends(keywords):
     for keyword in keywords:
         if keyword in data:
             for index, row in data.iterrows():
-                insert_google(keyword, str(index), int(row[keyword]))
-
+                insert_trend(
+                title=keyword,
+                platform="google",
+                score=int(row[keyword]),
+                timestamp=str(index)
+            )
     print("✅ Google Trends stored (no duplicates)")
